@@ -14,5 +14,9 @@ export default class PasswordResetsController {
         }
         user.password = baru.password_baru
         await user.save()
+        
+        return response.json({
+            message: 'Berhasil reset password'
+        })
     }
 }

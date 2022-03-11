@@ -32,6 +32,7 @@ Route.get('/:username', 'UsersController.index')
 //Foto
 Route.get('/items', 'ItemsController.index').middleware('auth')
 Route.get('/items/:id', 'ItemsController.show').middleware('auth')
+Route.get('/search', 'ItemsController.search').middleware('auth')
 Route.post('/items', 'ItemsController.store').middleware('auth')
 Route.post('/items/:id', 'ItemsController.destroy').middleware('auth')
 

@@ -5,6 +5,8 @@ export default class UsersController {
     public async index({response, params}:HttpContextContract) {
         const user = await User.query().where('username', params.username).preload('items')
         
-        return response.json({ user })
+        return response.json({ 
+            data: user
+        })
     }
 }

@@ -13,11 +13,12 @@ export default class AuthController {
 
         const user = await User.create(data)
         
-        await auth.login(user)
+        const token = await auth.login(user)
 
         return response.json({
             message: "Akun berhasil terbuat",
-            data: data
+            data: data,
+            token: token
         })
     }
     public async login( {request, response, auth }:HttpContextContract ) {
@@ -34,7 +35,11 @@ export default class AuthController {
             console.log(error)
         }
     }
-    public async logout( { auth }:HttpContextContract ) {
+    public async logout( { auth, response }:HttpContextContract ) {
         await auth.logout()
+
+        return response.json({
+            message: 'Berhasil logout'
+        })
     }
 }

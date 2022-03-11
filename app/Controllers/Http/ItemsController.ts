@@ -6,7 +6,9 @@ export default class ItemsController {
   public async index({ response }: HttpContextContract) {
     const items = await Item.all()
 
-    return response.json({ items })
+    return response.json({
+      data: items
+    })
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
@@ -34,17 +36,37 @@ export default class ItemsController {
     item.tipeEkstensi = `${image.extname}`
 
     await user.related('items').save(item)
+
+    return response.json({
+      message: 'Berhasil tambah item',
+      data: item
+    })
   }
 
   public async show({ response, params }: HttpContextContract) {
     const items = await Item.findByOrFail('id', params.id)
 
-    return response.json(items)
+    return response.json({
+      data: items
+    })
   }
 
-  public async destroy({ params }: HttpContextContract) {
+  public async search( { request, response}:HttpContextContract) {
+    const item = await Item.query().whereRaw('MATCH (judul, deskripsi, kategori) AGAINST (?)', request.input('q'))
+
+    return response.json({
+      data: item
+    })
+  }
+
+  public async destroy({ response, params }: HttpContextContract) {
     const item = await Item.findByOrFail('id', params.id)
 
     item.delete()
+
+    return response.json({
+      message: 'Berhasil hapus data',
+      data: item
+    })
   }
 }

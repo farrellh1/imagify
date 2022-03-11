@@ -9,13 +9,19 @@ export default class ReactionsController {
         itemreaction.itemId = params.itemid
         await itemreaction.save()
 
-        return response.json({itemreaction})
+        return response.json({
+            message: 'Liked',
+            itemreaction
+        })
     }
     public async unlike({auth, response, params}:HttpContextContract) {
         const user = await auth.authenticate()
         const itemreaction = await ItemReaction.query().where('userId', user.id).andWhere('itemId', params.itemid).delete()
 
-        return response.json({itemreaction})
+        return response.json({
+            message: 'Unliked',
+            itemreaction
+        })
     }
     public async likes({response, params}:HttpContextContract) {
         const itemreaction = await ItemReaction.query().where('itemId', params.itemid)

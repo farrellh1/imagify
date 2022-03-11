@@ -5,12 +5,18 @@ export default class FollowsController {
     public async follower({ response, params}:HttpContextContract ) {
         const countFollower = await UserFollow.query().where('followingId', params.id)
         const follower = countFollower.length
-        return response.json({follower})
+        return response.json({
+            follower: follower,
+            semua: countFollower
+        })
     }
     public async following({ response, params}:HttpContextContract ) {
         const countFollowing = await UserFollow.query().where('userId', params.id)
         const following = countFollowing.length
-        return response.json({following})
+        return response.json({
+            following: following,
+            semua: countFollowing
+        })
     }
     public async follow( {auth, response, params}:HttpContextContract) {
         const user = await auth.authenticate()
